@@ -1,0 +1,39 @@
+﻿@model AjaxFormWithoutRefreshInMVC.Models.Employee
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div style="display:none" id="loader">
+    <img src="~/Content/gif.gif" height="50px" width="50px" />
+</div>
+
+@using (Ajax.BeginForm("Index", new AjaxOptions() {
+    OnSuccess = "FnSuccess",
+    OnFailure = "FnFailure",
+    HttpMethod = "POST",
+    LoadingElementId = "loader",
+    LoadingElementDuration =5000
+}))
+{
+    <div> @Html.EditorFor(x => x.Firstname)</div><br /><br />
+    <div> @Html.EditorFor(x => x.Lastname)</div><br /><br />
+    <div> @Html.EditorFor(x => x.Email)</div><br /><br />
+
+    <div><input type="submit" value="Click me"></div><br /><br />
+}
+
+<script>
+
+    function FnSuccess(data) {
+        console.log(data);
+        //alert("Success");
+    }
+
+    function FnFailure(error) {
+        console.error(error);
+        alert("Error");
+    }
+
+</script>
